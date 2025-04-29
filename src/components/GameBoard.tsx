@@ -6,7 +6,14 @@ import { motion } from "framer-motion";
 
 const GameBoard = () => {
   const { state, makeMove } = useGame();
-  const { board, winningLine } = state;
+  const { board, winner, isAIThinking, winningLine } = state;
+  
+  const handleSquareClick = (index: number) => {
+    // Only allow moves if the square is empty, there's no winner, and AI is not thinking
+    if (board[index] === null && !winner && !isAIThinking) {
+      makeMove(index);
+    }
+  };
   
   return (
     <div
@@ -24,7 +31,7 @@ const GameBoard = () => {
         >
           <Square
             value={square}
-            onClick={() => makeMove(index)}
+            onClick={() => handleSquareClick(index)}
             isWinningSquare={winningLine?.includes(index) || false}
             index={index}
           />
