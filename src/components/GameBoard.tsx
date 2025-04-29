@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import Square from "./Square";
 import { useGame } from "@/context/GameContext";
 import { motion } from "framer-motion";
+import { createClickSound } from "@/utils/soundUtils";
 
 const GameBoard = () => {
   const { state, makeMove } = useGame();
@@ -11,7 +12,29 @@ const GameBoard = () => {
   
   // Initialize audio element
   useEffect(() => {
-    clickSoundRef.current = new Audio("data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vm//Nh//+mmLdBi1fPwXv9//iurWQLAAAAAAAAAAAAAAAAAAABQAAAAAwAQKAAAAAAAQAAAKACw==");
+    // Try to load the click sound from public directory first
+    const audio = new Audio("/click.mp3");
+    
+    // Add error handling for the audio loading
+    const handleError = () => {
+      console.log("Could not load click.mp3, using fallback sound");
+      clickSoundRef.current = createClickSound();
+    };
+    
+    audio.addEventListener('error', handleError);
+    
+    // Preload the audio
+    audio.load();
+    clickSoundRef.current = audio;
+    
+    return () => {
+      // Clean up
+      audio.removeEventListener('error', handleError);
+      if (clickSoundRef.current) {
+        clickSoundRef.current.pause();
+        clickSoundRef.current = null;
+      }
+    };
   }, []);
 
   const handleSquareClick = (index: number) => {
@@ -19,8 +42,20 @@ const GameBoard = () => {
     if (board[index] === null && !winner && !isAIThinking) {
       // Play sound
       if (clickSoundRef.current) {
-        clickSoundRef.current.currentTime = 0;
-        clickSoundRef.current.play().catch(err => console.error("Error playing sound:", err));
+        try {
+          // Create a clone of the audio for better handling of rapid clicks
+          const soundClone = clickSoundRef.current.cloneNode() as HTMLAudioElement;
+          soundClone.volume = 0.3; // Lower volume for better experience
+          soundClone.play().catch(err => {
+            console.log("Failed to play sound clone, trying original");
+            // If clone fails, try the original
+            clickSoundRef.current?.play().catch(err => 
+              console.log("All sound playback attempts failed")
+            );
+          });
+        } catch (err) {
+          console.error("Error playing sound:", err);
+        }
       }
       
       makeMove(index);
