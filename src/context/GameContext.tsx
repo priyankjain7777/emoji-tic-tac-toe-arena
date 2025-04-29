@@ -10,7 +10,8 @@ import {
   getNextPlayer,
   makeMove,
   getBestMove,
-  getRandomMove
+  getRandomMove,
+  getAvailableMoves
 } from "@/utils/gameLogic";
 import { useToast } from "@/hooks/use-toast";
 
@@ -104,30 +105,42 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   
   // AI move logic
   useEffect(() => {
+    // Only proceed if it's AI mode, it's the AI's turn (O), game is not over, and AI is not already thinking
     if (
       mode === "ai" && 
       state.currentPlayer === "O" && 
-      state.winner === null &&
-      !state.isAIThinking
+      state.winner === null
     ) {
-      // Simulate AI thinking
+      // Check if there are available moves
+      const availableMoves = getAvailableMoves(state.board);
+      if (availableMoves.length === 0) return;
+      
+      // Set AI thinking state
       dispatch({ type: "SET_AI_THINKING", isThinking: true });
       
+      // Add a small delay to simulate AI thinking
       const timer = setTimeout(() => {
-        const aiMove = difficulty === "easy" 
-          ? getRandomMove(state.board) 
-          : getBestMove(state.board, "O");
+        let aiMove = -1;
         
+        // Determine AI move based on difficulty
+        if (difficulty === "easy") {
+          aiMove = getRandomMove(state.board);
+        } else {
+          aiMove = getBestMove(state.board, "O");
+        }
+        
+        // Make move if valid
         if (aiMove !== -1) {
           dispatch({ type: "MAKE_MOVE", index: aiMove });
         }
         
+        // Reset AI thinking state
         dispatch({ type: "SET_AI_THINKING", isThinking: false });
-      }, 800); // Simulate thinking delay
+      }, 800); // Delay for AI thinking animation
       
       return () => clearTimeout(timer);
     }
-  }, [state.currentPlayer, state.winner, mode, difficulty, state.board, state.isAIThinking]);
+  }, [state.currentPlayer, state.winner, state.board, mode, difficulty]);
   
   // Show toast on game end
   useEffect(() => {
