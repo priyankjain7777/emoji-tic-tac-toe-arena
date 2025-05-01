@@ -14,8 +14,8 @@ const Square = ({ value, onClick, isWinningSquare, index }: SquareProps) => {
   // Map players to emojis
   const getEmoji = (val: SquareValue) => {
     switch (val) {
-      case 'X': return '❌';
-      case 'O': return '⭕';
+      case 'X': return '🦇'; // Batman bat emoji
+      case 'O': return '😊'; // Smiley face emoji
       default: return '';
     }
   };

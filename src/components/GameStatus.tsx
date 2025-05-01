@@ -23,13 +23,13 @@ const GameStatus = () => {
   
   const getEmoji = () => {
     if (winner === 'X') {
-      return '🎉 ❌';
+      return '🎉 🦇';
     } else if (winner === 'O') {
-      return '🎉 ⭕';
+      return '🎉 😊';
     } else if (winner === 'draw') {
       return '🤝';
     } else {
-      return currentPlayer === 'X' ? '❌' : '⭕';
+      return currentPlayer === 'X' ? '🦇' : '😊';
     }
   };
   
