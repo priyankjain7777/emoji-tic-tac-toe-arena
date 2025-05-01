@@ -2,10 +2,12 @@
 import React from "react";
 import { useGame } from "@/context/GameContext";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const GameStatus = () => {
   const { state, playerXName, playerOName, mode } = useGame();
   const { currentPlayer, winner, isAIThinking } = state;
+  const isMobile = useIsMobile();
   
   const getStatusText = () => {
     if (winner === 'X') {
@@ -35,17 +37,17 @@ const GameStatus = () => {
   
   return (
     <div 
-      className="text-center mb-6 p-3 rounded-lg bg-card"
+      className="text-center mb-4 sm:mb-6 p-3 rounded-lg bg-card"
       aria-live="polite"
     >
       <div className={cn(
-        "text-4xl mb-2",
+        isMobile ? "text-3xl mb-1" : "text-4xl mb-2",
         currentPlayer === 'X' && !winner && "text-game-x",
         currentPlayer === 'O' && !winner && "text-game-o"
       )}>
         {getEmoji()}
       </div>
-      <h2 className="text-xl font-semibold">{getStatusText()}</h2>
+      <h2 className={isMobile ? "text-lg font-semibold" : "text-xl font-semibold"}>{getStatusText()}</h2>
       
       {isAIThinking && (
         <div className="mt-2 flex justify-center">

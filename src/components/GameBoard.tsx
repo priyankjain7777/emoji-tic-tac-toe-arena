@@ -4,11 +4,13 @@ import Square from "./Square";
 import { useGame } from "@/context/GameContext";
 import { motion } from "framer-motion";
 import { createClickSound } from "@/utils/soundUtils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const GameBoard = () => {
   const { state, makeMove } = useGame();
   const { board, winner, isAIThinking, winningLine } = state;
   const clickSoundRef = useRef<HTMLAudioElement | null>(null);
+  const isMobile = useIsMobile();
   
   // Initialize audio element
   useEffect(() => {
@@ -64,7 +66,7 @@ const GameBoard = () => {
   
   return (
     <div
-      className="grid grid-cols-3 gap-3 w-full max-w-sm mx-auto"
+      className="grid grid-cols-3 gap-2 sm:gap-3 w-full max-w-xs sm:max-w-sm mx-auto"
       role="grid"
       aria-label="Tic Tac Toe game board"
     >
