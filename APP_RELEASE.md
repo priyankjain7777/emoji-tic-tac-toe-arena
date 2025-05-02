@@ -1,7 +1,7 @@
 
-# Emoji Tic Tac Toe Arena - App Store & Play Store Release Guide
+# Trump vs Modi Tic Tac Toe - App Store & Play Store Release Guide
 
-This guide contains instructions for building and publishing the Emoji Tic Tac Toe Arena game to the App Store and Play Store.
+This guide contains instructions for building and publishing the Trump vs Modi Tic Tac Toe game to the App Store and Play Store.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ This guide contains instructions for building and publishing the Emoji Tic Tac T
 ```bash
 # Clone your repository from GitHub
 git clone <YOUR_REPO_URL>
-cd emoji-tic-tac-toe-arena
+cd trump-vs-modi-tic-tac-toe
 
 # Install dependencies
 npm install
@@ -70,7 +70,9 @@ npx capacitor-assets generate
 1. Go to [App Store Connect](https://appstoreconnect.apple.com/)
 2. Create a new app entry with the same bundle identifier
 3. Fill in all required metadata:
-   - App name, description, keywords
+   - App name: Trump vs Modi Tic Tac Toe
+   - Description: Play Tic Tac Toe as Trump vs Modi with custom game sounds and animations!
+   - Keywords: tic tac toe, trump, modi, game, puzzle, strategy
    - Screenshots (for all required device sizes)
    - App preview videos (optional)
    - Privacy policy URL
@@ -99,7 +101,7 @@ npx capacitor-assets generate
 ### Step 2: Create Signing Key
 
 ```bash
-keytool -genkey -v -keystore emoji-tictactoe.keystore -alias emoji-tictactoe -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore trump-modi-tictactoe.keystore -alias trump-modi-tictactoe -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 ### Step 3: Build Signed APK/Bundle
@@ -114,7 +116,9 @@ keytool -genkey -v -keystore emoji-tictactoe.keystore -alias emoji-tictactoe -ke
 1. Go to [Google Play Console](https://play.google.com/console/)
 2. Create a new app
 3. Fill in all required metadata:
-   - App name, description, short description
+   - App name: Trump vs Modi Tic Tac Toe
+   - Description: Engage in strategic Tic Tac Toe battles as Trump vs Modi with custom sounds and animations!
+   - Short description: A fun Trump vs Modi themed Tic Tac Toe game
    - Screenshots (for phone, tablet, etc.)
    - Feature graphic and icon
    - Content rating questionnaire

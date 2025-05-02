@@ -14,15 +14,6 @@ interface SquareProps {
 const Square = ({ value, onClick, isWinningSquare, index }: SquareProps) => {
   const isMobile = useIsMobile();
   
-  // Map players to emojis
-  const getEmoji = (val: SquareValue) => {
-    switch (val) {
-      case 'X': return '🦇'; // Batman bat emoji
-      case 'O': return '😊'; // Smiley face emoji
-      default: return '';
-    }
-  };
-  
   // For accessibility and keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -48,7 +39,19 @@ const Square = ({ value, onClick, isWinningSquare, index }: SquareProps) => {
       aria-label={`Square ${index + 1}, ${value ? `contains ${value}` : 'empty'}`}
     >
       <span className={value ? "floating" : ""}>
-        {getEmoji(value)}
+        {value === 'X' ? (
+          <img 
+            src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" 
+            alt="Trump" 
+            className="w-11 h-11 object-contain"
+          />
+        ) : value === 'O' ? (
+          <img 
+            src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" 
+            alt="Modi" 
+            className="w-11 h-11 object-contain"
+          />
+        ) : null}
       </span>
     </button>
   );

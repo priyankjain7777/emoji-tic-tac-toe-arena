@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import { 
   SquareValue, 
@@ -14,6 +13,7 @@ import {
   getAvailableMoves
 } from "@/utils/gameLogic";
 import { useToast } from "@/hooks/use-toast";
+import { playWinSound, playBellSound } from "@/utils/soundUtils";
 
 // Define action types
 type GameAction =
@@ -39,6 +39,13 @@ interface GameContextType {
   setDifficulty: (difficulty: Difficulty) => void;
   setGameMode: (mode: GameMode) => void;
   setPlayerNames: (playerXName: string, playerOName: string) => void;
+}
+
+// Props interface for the GameProvider
+interface GameProviderProps {
+  children: React.ReactNode;
+  defaultPlayerXName?: string;
+  defaultPlayerOName?: string;
 }
 
 // Initial state
@@ -94,12 +101,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 }
 
 // Provider component
-export function GameProvider({ children }: { children: React.ReactNode }) {
+export function GameProvider({ 
+  children,
+  defaultPlayerXName = "Player X",
+  defaultPlayerOName = "Player O" 
+}: GameProviderProps) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const [mode, setMode] = React.useState<GameMode>("pvp");
   const [difficulty, setDifficultyState] = React.useState<Difficulty>("easy");
-  const [playerXName, setPlayerXName] = React.useState<string>("Player X");
-  const [playerOName, setPlayerOName] = React.useState<string>("Player O");
+  const [playerXName, setPlayerXName] = React.useState<string>(defaultPlayerXName);
+  const [playerOName, setPlayerOName] = React.useState<string>(defaultPlayerOName);
   
   const { toast } = useToast();
   
@@ -142,23 +153,28 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state.currentPlayer, state.winner, state.board, mode, difficulty]);
   
-  // Show toast on game end
+  // Show toast on game end and play appropriate sounds
   useEffect(() => {
     if (state.winner === "X") {
       toast({
         title: "Game Over",
         description: `${playerXName} wins! 🎉`,
       });
+      playWinSound("trump"); // Play Trump win sound
+      playBellSound(); // Play bell sound
     } else if (state.winner === "O") {
       toast({
         title: "Game Over",
         description: `${playerOName} wins! 🎉`,
       });
+      playWinSound("modi"); // Play Modi win sound
+      playBellSound(); // Play bell sound
     } else if (state.winner === "draw") {
       toast({
         title: "Game Over",
         description: "It's a draw! 🤝",
       });
+      playBellSound(); // Play bell sound
     }
   }, [state.winner, playerXName, playerOName, toast]);
   

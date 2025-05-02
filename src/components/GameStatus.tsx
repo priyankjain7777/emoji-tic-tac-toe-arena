@@ -23,15 +23,33 @@ const GameStatus = () => {
     }
   };
   
-  const getEmoji = () => {
+  const getPlayerImage = () => {
     if (winner === 'X') {
-      return '🎉 🦇';
+      return (
+        <div className="flex items-center">
+          <span className="mr-2">🎉</span>
+          <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
+        </div>
+      );
     } else if (winner === 'O') {
-      return '🎉 😊';
+      return (
+        <div className="flex items-center">
+          <span className="mr-2">🎉</span>
+          <img src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" alt="Modi" className="w-8 h-8 object-contain" />
+        </div>
+      );
     } else if (winner === 'draw') {
-      return '🤝';
+      return (
+        <div className="flex items-center justify-center">
+          <span>🤝</span>
+        </div>
+      );
     } else {
-      return currentPlayer === 'X' ? '🦇' : '😊';
+      return currentPlayer === 'X' ? (
+        <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
+      ) : (
+        <img src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" alt="Modi" className="w-8 h-8 object-contain" />
+      );
     }
   };
   
@@ -41,11 +59,12 @@ const GameStatus = () => {
       aria-live="polite"
     >
       <div className={cn(
-        isMobile ? "text-3xl mb-1" : "text-4xl mb-2",
+        "flex justify-center items-center",
+        isMobile ? "mb-1" : "mb-2",
         currentPlayer === 'X' && !winner && "text-game-x",
         currentPlayer === 'O' && !winner && "text-game-o"
       )}>
-        {getEmoji()}
+        {getPlayerImage()}
       </div>
       <h2 className={isMobile ? "text-lg font-semibold" : "text-xl font-semibold"}>{getStatusText()}</h2>
       

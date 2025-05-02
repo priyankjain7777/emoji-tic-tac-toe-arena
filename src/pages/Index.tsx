@@ -16,13 +16,13 @@ const Index = () => {
         <h1 className={isMobile 
           ? "text-xl font-bold bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent" 
           : "text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent"}>
-          Emoji Tic Tac Toe Arena
+          Trump vs Modi Tic Tac Toe
         </h1>
         <ThemeToggle />
       </header>
       
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-xl">
-        <GameProvider>
+        <GameProvider defaultPlayerXName="Trump" defaultPlayerOName="Modi">
           <GameStatus />
           <div className="w-full mb-6 sm:mb-8">
             <GameBoard />
@@ -33,7 +33,7 @@ const Index = () => {
       
       <footer className="mt-6 sm:mt-8 text-center text-xs sm:text-sm text-muted-foreground">
         <p>Play with keyboard: Tab to navigate, Enter/Space to select</p>
-        <p className="mt-1">© 2025 Emoji Tic Tac Toe Arena</p>
+        <p className="mt-1">© 2025 Trump vs Modi Tic Tac Toe</p>
       </footer>
     </div>
   );
