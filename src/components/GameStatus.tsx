@@ -28,14 +28,14 @@ const GameStatus = () => {
       return (
         <div className="flex items-center">
           <span className="mr-2">🎉</span>
-          <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
+          <img src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" alt="Modi" className="w-8 h-8 object-contain" />
         </div>
       );
     } else if (winner === 'O') {
       return (
         <div className="flex items-center">
           <span className="mr-2">🎉</span>
-          <img src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" alt="Modi" className="w-8 h-8 object-contain" />
+          <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
         </div>
       );
     } else if (winner === 'draw') {
@@ -46,9 +46,9 @@ const GameStatus = () => {
       );
     } else {
       return currentPlayer === 'X' ? (
-        <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
-      ) : (
         <img src="/lovable-uploads/7af06b8c-2a6d-4865-8a61-e00bdc83d76d.png" alt="Modi" className="w-8 h-8 object-contain" />
+      ) : (
+        <img src="/lovable-uploads/92dce563-20ee-473e-9a9e-d1e1e98ba54c.png" alt="Trump" className="w-8 h-8 object-contain" />
       );
     }
   };
