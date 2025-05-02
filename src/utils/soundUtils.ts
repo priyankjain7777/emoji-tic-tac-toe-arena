@@ -54,9 +54,9 @@ export const playWinSound = (player: 'trump' | 'modi'): void => {
     speech.lang = 'en-US';
     
     if (player === 'trump') {
-      speech.text = "Trump has won the match";
-    } else {
       speech.text = "Modi has won the match";
+    } else {
+      speech.text = "Trump has won the match";
     }
     
     window.speechSynthesis.speak(speech);
